@@ -3,182 +3,477 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-<title>Боралдай</title>
-<meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Golos+Text:wght@400;500;600&display=swap">
+<title>Sazan Zaysan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap&subset=cyrillic">
 <style>
-/* Layout: split hero (headline + receipt ticket), facts strip, address block with 2GIS link, WhatsApp contacts. Signature detail: the 1500 ₸ receipt. */
+/* Layout concept: a dark pond. The hero is a water surface with koi swimming across it (the cafe is named after the carp, "сазан"); below it a plain, quiet column of menu, facts and contacts. */
 :root {
-  --bg: #EEF2EC;
-  --fg: #12281F;
-  --muted: #4C6258;
-  --green: #0E4A3A;
-  --on-green: #F2F7F1;
-  --saffron: #F2B10F;
-  --on-saffron: #2A1D00;
-  --paper: #FFFDF6;
-  --line: #CAD6CB;
-  --display: "Unbounded", "Arial Black", system-ui, sans-serif;
-  --body: "Golos Text", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: dark;
+  --bg: #0a2226;
+  --surface: #11343a;
+  --line: #24505a;
+  --fg: #eaf3ee;
+  --muted: #9fbdb8;
+  --accent: #f4b63f;
+  --on-accent: #1a1200;
+  --coral: #ff7a59;
+  --fish1: rgba(255, 122, 89, 0.62);
+  --fish2: rgba(244, 182, 63, 0.55);
+  --fish3: rgba(234, 243, 238, 0.34);
+  --font-display: 'Unbounded', system-ui, sans-serif;
+  --font-body: 'Onest', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0B1A15; --fg: #E8EFE9; --muted: #9DB3A7; --green: #17614B; --on-green: #F2F7F1;
-    --saffron: #F2B10F; --on-saffron: #2A1D00; --paper: #17261F; --line: #26402F; color-scheme: dark;
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
+    --bg: #edf4ef;
+    --surface: #ffffff;
+    --line: #c3d6cd;
+    --fg: #0a2226;
+    --muted: #46675f;
+    --accent: #9a5b00;
+    --on-accent: #fff8e8;
+    --coral: #c9441f;
+    --fish1: rgba(217, 78, 43, 0.5);
+    --fish2: rgba(226, 150, 20, 0.5);
+    --fish3: rgba(10, 34, 38, 0.2);
   }
 }
-:root[data-theme="dark"] {
-  --bg: #0B1A15; --fg: #E8EFE9; --muted: #9DB3A7; --green: #17614B; --on-green: #F2F7F1;
-  --saffron: #F2B10F; --on-saffron: #2A1D00; --paper: #17261F; --line: #26402F; color-scheme: dark;
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #edf4ef;
+  --surface: #ffffff;
+  --line: #c3d6cd;
+  --fg: #0a2226;
+  --muted: #46675f;
+  --accent: #9a5b00;
+  --on-accent: #fff8e8;
+  --coral: #c9441f;
+  --fish1: rgba(217, 78, 43, 0.5);
+  --fish2: rgba(226, 150, 20, 0.5);
+  --fish3: rgba(10, 34, 38, 0.2);
 }
+
 * { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
-  background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; line-height: 1.55;
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 400 16px/1.6 var(--font-body);
+  padding-block: 0 48px;
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
-  padding-block: 20px 40px;
 }
-.wrap { max-width: 1040px; margin: 0 auto; display: flex; flex-direction: column; gap: 56px; }
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 30;
+  background: var(--bg);
+}
+.wrap { max-width: 1120px; margin: 0 auto; }
 a { color: inherit; }
-:focus-visible { outline: 3px solid var(--saffron); outline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
 
-.top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
-.brand { font-family: var(--display); font-weight: 800; font-size: 1.15rem; letter-spacing: 0.02em; }
-.tag { font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
-
-.hero { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 40px; align-items: center; }
-.hero > * { min-width: 0; }
-h1 { font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 6.2vw, 3.8rem); line-height: 1.04; margin: 0 0 20px; text-wrap: balance; }
-h1 em { font-style: normal; background: var(--saffron); color: var(--on-saffron); padding: 0 0.15em; border-radius: 4px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
-.lead { font-size: 1.1rem; max-width: 34em; margin: 0 0 28px; color: var(--muted); }
-.cta { display: flex; gap: 12px; flex-wrap: wrap; }
-.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px; border-radius: 999px; font-weight: 600; text-decoration: none; border: 2px solid var(--green); }
-.btn.primary { background: var(--green); color: var(--on-green); }
-.btn.ghost { background: transparent; color: var(--fg); border-color: var(--line); }
-.btn:hover { transform: translateY(-1px); }
-@media (prefers-reduced-motion: no-preference) { .btn { transition: transform .15s; } }
-
-/* receipt */
-.ticket {
-  background: var(--paper); color: var(--fg); padding: 26px 24px 34px; font-family: var(--body);
-  border: 1px solid var(--line); transform: rotate(1.5deg);
-  --zig: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 18px 100%;
-  -webkit-mask: var(--zig); mask: var(--zig);
-  box-shadow: 0 0 0 1px var(--line);
+/* header */
+.top {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 20;
+  background: var(--bg);
 }
-.ticket h2 { font-family: var(--display); font-size: 1rem; letter-spacing: 0.1em; text-transform: uppercase; margin: 0 0 4px; text-align: center; }
-.ticket .sub { text-align: center; font-size: 0.8rem; color: var(--muted); margin-bottom: 16px; }
-.ticket hr { border: 0; border-top: 2px dashed var(--line); margin: 14px 0; }
-.row { display: flex; justify-content: space-between; gap: 12px; font-variant-numeric: tabular-nums; font-size: 0.95rem; }
-.row b { font-weight: 600; }
-.total { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-family: var(--display); font-weight: 800; }
-.total span:last-child { font-size: 2.1rem; }
-.ticket .foot { text-align: center; font-size: 0.8rem; color: var(--muted); margin-top: 14px; }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; }
+.brand { font: 700 15px/1 var(--font-display); text-decoration: none; letter-spacing: 0.01em; white-space: nowrap; }
+.brand span { color: var(--accent); }
+.nav { display: flex; align-items: center; gap: 22px; }
+.nav a.link { text-decoration: none; font-size: 14px; color: var(--muted); }
+.nav a.link:hover { color: var(--fg); }
+@media (max-width: 640px) { .nav a.link { display: none; } }
 
-.facts { display: grid; grid-template-columns: repeat(4, 1fr); border-block: 2px solid var(--fg); }
-.fact { padding: 20px 16px 20px 0; min-width: 0; }
-.fact + .fact { padding-left: 16px; border-left: 1px solid var(--line); }
-.fact .n { font-family: var(--display); font-weight: 700; font-size: 1.7rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
-.fact .l { color: var(--muted); font-size: 0.92rem; margin-top: 4px; }
+/* buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; padding: 10px 20px;
+  border-radius: 999px; border: 1.5px solid var(--line);
+  font: 600 14px/1.2 var(--font-body); text-decoration: none;
+  color: var(--fg); background: transparent; cursor: pointer;
+  transition: transform .15s ease, background .15s ease;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn.primary { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.btn.small { min-height: 38px; padding: 8px 16px; }
 
-.where { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
-.where > * { min-width: 0; }
-h2.s { font-family: var(--display); font-weight: 700; font-size: clamp(1.4rem, 3.6vw, 2rem); line-height: 1.15; margin: 0 0 14px; text-wrap: balance; }
-.addr { background: var(--green); color: var(--on-green); border-radius: 18px; padding: 28px 26px; display: flex; flex-direction: column; gap: 10px; }
-.addr .street { font-family: var(--display); font-weight: 700; font-size: 1.5rem; line-height: 1.2; }
-.addr p { margin: 0; opacity: 0.92; }
-.addr .btn { align-self: flex-start; margin-top: 10px; background: var(--saffron); color: var(--on-saffron); border-color: var(--saffron); }
-.why { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 14px; }
-.why li { padding-bottom: 14px; border-bottom: 1px solid var(--line); }
-.why li:last-child { border-bottom: 0; }
-.why strong { display: block; font-weight: 600; }
-.why span { color: var(--muted); font-size: 0.95rem; }
+/* hero */
+.hero {
+  position: relative; overflow: hidden;
+  border-radius: 28px; border: 1px solid var(--line);
+  background:
+    radial-gradient(120% 90% at 85% 0%, var(--surface) 0%, transparent 60%),
+    var(--bg);
+  padding: clamp(28px, 6vw, 72px);
+}
+.hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; display: block; }
+.hero-inner { position: relative; display: flex; flex-direction: column; gap: 28px; }
+.eyebrow { font: 500 12px/1.5 var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin: 0; }
+h1 {
+  margin: 0; font: 800 clamp(2.5rem, 10.5vw, 6.6rem)/0.98 var(--font-display);
+  letter-spacing: -0.02em; text-wrap: balance;
+}
+h1 em { font-style: normal; color: var(--accent); display: block; }
+.lead { max-width: 46ch; font-size: clamp(1rem, 2.4vw, 1.2rem); color: var(--fg); margin: 0; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; }
+.stats { display: flex; flex-wrap: wrap; gap: 24px 36px; padding-top: 8px; }
+.stat { display: flex; flex-direction: column; gap: 2px; padding-left: 14px; border-left: 2px solid var(--accent); }
+.stat b { font: 700 clamp(1.3rem, 3.4vw, 1.8rem)/1.1 var(--font-display); font-variant-numeric: tabular-nums; }
+.stat span { font: 400 12px/1.4 var(--font-mono); color: var(--muted); }
 
-.contact { border: 2px solid var(--fg); border-radius: 18px; padding: 28px 26px; display: flex; flex-direction: column; gap: 14px; }
-.contact p { margin: 0; color: var(--muted); max-width: 36em; }
-.nums { display: flex; gap: 12px; flex-wrap: wrap; }
-.nums .btn { font-variant-numeric: tabular-nums; }
-footer { font-size: 0.85rem; color: var(--muted); }
+/* sections */
+section { padding-top: clamp(64px, 10vw, 112px); }
+h2 { margin: 0; font: 700 clamp(1.7rem, 4.6vw, 2.8rem)/1.08 var(--font-display); letter-spacing: -0.015em; text-wrap: balance; }
+.sec-head { display: flex; flex-direction: column; gap: 12px; margin-bottom: 36px; max-width: 40rem; }
+.sec-head p { margin: 0; color: var(--muted); }
 
-@media (max-width: 820px) {
-  .hero, .where { grid-template-columns: 1fr; }
-  .ticket { max-width: 380px; margin-inline: auto; width: 100%; }
-  .facts { grid-template-columns: 1fr 1fr; }
-  .fact:nth-child(3) { padding-left: 0; border-left: 0; }
-  .fact:nth-child(n+3) { border-top: 1px solid var(--line); }
+/* menu */
+.menu { display: grid; grid-template-columns: minmax(0, 260px) minmax(0, 1fr); gap: 40px; align-items: start; }
+.tabs { display: flex; flex-direction: column; gap: 4px; }
+.tab {
+  text-align: left; background: transparent; color: var(--muted); border: 0;
+  border-left: 2px solid var(--line); padding: 12px 16px; cursor: pointer;
+  font: 600 15px/1.3 var(--font-body);
+}
+.tab:hover { color: var(--fg); }
+.tab[aria-selected="true"] { color: var(--fg); border-left-color: var(--accent); background: var(--surface); }
+.dishes { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.dishes li {
+  padding: 18px 0; border-bottom: 1px solid var(--line);
+  font: 500 clamp(1.15rem, 3vw, 1.6rem)/1.2 var(--font-display);
+  display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+}
+.dishes li i { font: 400 12px/1.3 var(--font-mono); color: var(--muted); font-style: normal; text-align: right; }
+.note { margin: 20px 0 0; font-size: 14px; color: var(--muted); }
+.note a { color: var(--accent); }
+@media (max-width: 760px) {
+  .menu { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .tabs { flex-direction: row; flex-wrap: wrap; gap: 8px; }
+  .tab { border: 1.5px solid var(--line); border-radius: 999px; padding: 9px 16px; }
+  .tab[aria-selected="true"] { border-color: var(--accent); }
+}
+
+/* facts */
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0 40px; margin: 0; }
+.fact { padding: 20px 0; border-top: 1px solid var(--line); min-width: 0; }
+.fact dt { font: 500 12px/1.4 var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+.fact dd { margin: 0; color: var(--fg); }
+.fact dd small { display: block; color: var(--muted); font-size: 14px; }
+
+/* contacts */
+.contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: stretch; }
+.rows { display: flex; flex-direction: column; }
+.row { display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 1px solid var(--line); min-width: 0; }
+.row:last-child { border-bottom: 1px solid var(--line); }
+.row .k { font: 500 12px/1.4 var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.row .v { font: 600 1.15rem/1.35 var(--font-body); overflow-wrap: anywhere; }
+.row .phones { display: flex; flex-direction: column; gap: 10px; }
+.phone { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+.phone span { font: 600 1.15rem/1.3 var(--font-body); font-variant-numeric: tabular-nums; }
+.plan {
+  position: relative; overflow: hidden; min-height: 320px;
+  border-radius: 24px; border: 1px solid var(--line);
+  background:
+    linear-gradient(var(--line) 1px, transparent 1px) 0 0 / 56px 56px,
+    linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0 / 56px 56px,
+    var(--surface);
+  opacity: 1;
+}
+.plan::after { content: ""; position: absolute; inset: 0; background: radial-gradient(70% 70% at 50% 50%, transparent 30%, var(--surface) 100%); }
+.pin { position: absolute; left: 50%; top: 46%; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%; background: var(--coral); z-index: 2; }
+.pin::before { content: ""; position: absolute; inset: -14px; border-radius: 50%; border: 2px solid var(--coral); animation: ping 2.4s ease-out infinite; }
+@keyframes ping { from { transform: scale(0.4); opacity: 0.9; } to { transform: scale(1.8); opacity: 0; } }
+.plan-label { position: absolute; left: 20px; right: 20px; bottom: 18px; z-index: 3; display: flex; flex-direction: column; gap: 4px; }
+.plan-label b { font: 700 1.05rem/1.3 var(--font-display); }
+.plan-label span { font: 400 12px/1.4 var(--font-mono); color: var(--muted); }
+@media (max-width: 760px) { .contact { grid-template-columns: minmax(0, 1fr); gap: 28px; } }
+
+footer { margin-top: clamp(56px, 8vw, 96px); padding-top: 24px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-size: 13px; color: var(--muted); }
+footer a { color: var(--accent); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .pin::before { animation: none; opacity: 0.5; }
+  .btn { transition: none; }
 }
 </style>
-</head>
-<body>
 
-<div class="wrap">
-  <header class="top">
-    <div class="brand">БОРАЛДАЙ</div>
-    <div class="tag">Столовая · Астана · Қош келдіңіз</div>
-  </header>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top">Sazan <span>Zaysan</span></a>
+    <nav class="nav" aria-label="Разделы">
+      <a class="link" href="#menu">Меню</a>
+      <a class="link" href="#about">Что есть</a>
+      <a class="link" href="#contacts">Контакты</a>
+      <a class="btn primary small" href="https://wa.me/77081273174" target="_blank" rel="noopener">Написать</a>
+    </nav>
+  </div>
+</header>
 
-  <section class="hero">
-    <div>
-      <h1>Сытный обед за <em>1500 ₸</em>. В любое время суток.</h1>
-      <p class="lead">Домашняя халяльная кухня в столовой «Боралдай» на улице Кобыз. Работаем круглосуточно: заходите после смены, перед дорогой или поздно вечером.</p>
+<main class="wrap" id="top">
+  <div class="hero">
+    <canvas id="pond" aria-hidden="true"></canvas>
+    <div class="hero-inner">
+      <p class="eyebrow">Кафе · ул. Сыганак, 64/1 · Есиль район, Астана</p>
+      <h1>Sazan<em>Zaysan</em></h1>
+      <p class="lead">Рамен, суши, том-ям и жареная рыба. Приходите с друзьями или с ноутбуком: в зале до 150 мест, а завтрак подают английский.</p>
       <div class="cta">
-        <a class="btn primary" href="https://wa.me/77761717477" target="_blank" rel="noopener">Написать в WhatsApp</a>
-        <a class="btn ghost" href="https://2gis.kz/astana/firm/70000001068085934" target="_blank" rel="noopener">Открыть в 2ГИС</a>
+        <a class="btn primary" href="https://wa.me/77081273174" target="_blank" rel="noopener">Написать в WhatsApp</a>
+        <a class="btn" href="https://2gis.kz/astana/directions/points/%7C71.430202%2C51.121546%3B70000001102808013" target="_blank" rel="noopener">Построить маршрут</a>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>4.8</b><span>оценка, 768 оценок в 2ГИС</span></div>
+        <div class="stat"><b>3 500 ₸</b><span>средний чек</span></div>
+        <div class="stat"><b>до 150</b><span>мест в зале</span></div>
       </div>
     </div>
+  </div>
 
-    <div class="ticket" role="img" aria-label="Чек: средний чек 1500 тенге, халяльная кухня, круглосуточно">
-      <h2>Боралдай</h2>
-      <div class="sub">ул. Кобыз, 47 · Астана</div>
-      <hr>
-      <div class="row"><span>Кухня</span><b>Халяль</b></div>
-      <div class="row"><span>Режим</span><b>24 / 7</b></div>
-      <div class="row"><span>Мест в зале</span><b>до 20</b></div>
-      <div class="row"><span>Оценка в 2ГИС</span><b>4,9 из 5</b></div>
-      <hr>
-      <div class="total"><span>Средний чек</span><span>1500 ₸</span></div>
-      <div class="foot">Спасибо, что выбрали нас!</div>
+  <section id="menu">
+    <div class="sec-head">
+      <h2>Что в меню</h2>
+      <p>Азиатская кухня, рыба на сковороде и привычная еда на каждый день. Выберите раздел.</p>
     </div>
-  </section>
-
-  <section class="facts" aria-label="Коротко о столовой">
-    <div class="fact"><div class="n">4,9</div><div class="l">оценка, 382 оценки</div></div>
-    <div class="fact"><div class="n">111</div><div class="l">отзывов гостей в 2ГИС</div></div>
-    <div class="fact"><div class="n">24/7</div><div class="l">круглосуточно</div></div>
-    <div class="fact"><div class="n">1500 ₸</div><div class="l">средний чек</div></div>
-  </section>
-
-  <section class="where">
-    <div>
-      <h2 class="s">Как нас найти</h2>
-      <div class="addr">
-        <div class="street">ул. Кобыз, 47</div>
-        <p>1 этаж, здание в 2 этажа.<br>Ж/м Юго-Восток (правая сторона), Сарайшык район, Астана.</p>
-        <a class="btn" href="https://2gis.kz/astana/directions/points/%7C71.522021%2C51.136574%3B70000001068085934" target="_blank" rel="noopener">Построить маршрут</a>
+    <div class="menu">
+      <div class="tabs" role="tablist" aria-label="Разделы меню">
+        <button class="tab" role="tab" id="t0" aria-selected="true" aria-controls="p0" type="button">Азия</button>
+        <button class="tab" role="tab" id="t1" aria-selected="false" aria-controls="p1" type="button" tabindex="-1">Рыба и гриль</button>
+        <button class="tab" role="tab" id="t2" aria-selected="false" aria-controls="p2" type="button" tabindex="-1">Завтрак и кофе</button>
+        <button class="tab" role="tab" id="t3" aria-selected="false" aria-controls="p3" type="button" tabindex="-1">На каждый день</button>
+      </div>
+      <div>
+        <ul class="dishes" role="tabpanel" id="p0" aria-labelledby="t0">
+          <li>Рамен</li><li>Том-ям</li><li>Суши</li><li>Манты</li><li>Пельмени</li>
+        </ul>
+        <ul class="dishes" role="tabpanel" id="p1" aria-labelledby="t1" hidden>
+          <li>Жареная рыба</li><li>Стейки</li><li>Картофель-фри</li><li>Наггетсы</li>
+        </ul>
+        <ul class="dishes" role="tabpanel" id="p2" aria-labelledby="t2" hidden>
+          <li>Английский завтрак</li><li>Кофе <i>можно с собой</i></li><li>Чай <i>можно с собой</i></li>
+        </ul>
+        <ul class="dishes" role="tabpanel" id="p3" aria-labelledby="t3" hidden>
+          <li>Пицца</li><li>Чебуреки</li><li>Салаты</li><li>Супы</li>
+        </ul>
+        <p class="note">Актуальные блюда и цены смотрите в <a href="https://2gis.kz/astana/firm/70000001102808013/tab/prices" target="_blank" rel="noopener">меню на 2ГИС</a>.</p>
       </div>
     </div>
-    <div>
-      <h2 class="s">Почему к нам возвращаются</h2>
-      <ul class="why">
-        <li><strong>Цена понятна заранее</strong><span>Средний чек 1500 ₸, без сюрпризов на кассе.</span></li>
-        <li><strong>Халяльная кухня</strong><span>Подходит для всей компании и для семейного обеда.</span></li>
-        <li><strong>Открыто всегда</strong><span>Круглосуточный график. В праздники лучше уточнить по телефону.</span></li>
-        <li><strong>Уютный зал</strong><span>До 20 мест, можно спокойно поесть и согреться.</span></li>
-      </ul>
+  </section>
+
+  <section id="about">
+    <div class="sec-head">
+      <h2>Удобно остаться надолго</h2>
+      <p>Здесь можно поработать, встретиться с компанией или забрать заказ домой.</p>
+    </div>
+    <dl class="facts">
+      <div class="fact"><dt>Работа</dt><dd>Можно с ноутбуком<small>Wi-Fi для клиентов</small></dd></div>
+      <div class="fact"><dt>Зал</dt><dd>До 150 мест<small>Есть пандус</small></dd></div>
+      <div class="fact"><dt>С собой</dt><dd>Кофе и чай<small>Заберите в дорогу</small></dd></div>
+      <div class="fact"><dt>Дома</dt><dd>Доставка<small>Закажите по WhatsApp</small></dd></div>
+    </dl>
+  </section>
+
+  <section id="contacts">
+    <div class="sec-head">
+      <h2>Как нас найти</h2>
+    </div>
+    <div class="contact">
+      <div class="rows">
+        <div class="row">
+          <span class="k">Адрес</span>
+          <span class="v">ул. Сыганак, 64/1<br>Есиль район, Астана</span>
+        </div>
+        <div class="row">
+          <span class="k">Телефоны и WhatsApp</span>
+          <div class="phones">
+            <div class="phone"><span>+7 708 127 3174</span><a class="btn small" href="https://wa.me/77081273174" target="_blank" rel="noopener">WhatsApp</a></div>
+            <div class="phone"><span>+7 708 522 9248</span><a class="btn small" href="https://wa.me/77085229248" target="_blank" rel="noopener">WhatsApp</a></div>
+          </div>
+        </div>
+        <div class="row">
+          <span class="k">Часы работы</span>
+          <span class="v">В течение дня есть перерыв. Свежий график смотрите на <a href="https://2gis.kz/astana/firm/70000001102808013" target="_blank" rel="noopener">2ГИС</a>.</span>
+        </div>
+      </div>
+      <div class="plan" role="img" aria-label="Схематичная точка кафе на сетке улиц">
+        <div class="pin"></div>
+        <div class="plan-label">
+          <b>Sazan Zaysan</b>
+          <span>51.1215° N · 71.4302° E</span>
+          <a class="btn primary small" style="align-self:flex-start;margin-top:8px" href="https://2gis.kz/astana/directions/points/%7C71.430202%2C51.121546%3B70000001102808013" target="_blank" rel="noopener">Маршрут в 2ГИС</a>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="contact">
-    <h2 class="s" style="margin:0">Хотите уточнить или заказать?</h2>
-    <p>Напишите в WhatsApp, и мы ответим. Оба номера указаны в карточке 2ГИС.</p>
-    <div class="nums">
-      <a class="btn primary" href="https://wa.me/77761717477" target="_blank" rel="noopener">+7 776 171 74 77</a>
-      <a class="btn ghost" href="https://wa.me/77072023385" target="_blank" rel="noopener">+7 707 202 33 85</a>
-    </div>
-  </section>
+  <footer>
+    <span>© Sazan Zaysan, Астана</span>
+    <span>Данные: <a href="https://2gis.kz/astana/firm/70000001102808013" target="_blank" rel="noopener">2ГИС</a>, октябрь 2026</span>
+  </footer>
+</main>
 
-  <footer>Столовая «Боралдай», Астана, ул. Кобыз, 47. Данные об оценках и режиме работы взяты из карточки в 2ГИС.</footer>
-</div>
-</body>
-</html>
+<script>
+(function () {
+  /* menu tabs */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  function select(i) {
+    tabs.forEach(function (t, k) {
+      var on = k === i;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById('p' + k).hidden = !on;
+    });
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { select(i); });
+    t.addEventListener('keydown', function (e) {
+      var n = null;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') n = (i + 1) % tabs.length;
+      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') n = (i - 1 + tabs.length) % tabs.length;
+      if (n !== null) { e.preventDefault(); select(n); tabs[n].focus(); }
+    });
+  });
+
+  /* koi pond */
+  var canvas = document.getElementById('pond');
+  var ctx = canvas.getContext('2d');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var W = 0, H = 0, dpr = 1, fish = [];
+  var N = 14;
+
+  function Fish(x, y, len, colorVar) {
+    this.len = len;
+    this.seg = len / N;
+    this.color = colorVar;
+    this.a = Math.random() * Math.PI * 2;
+    this.speed = 0.45 + Math.random() * 0.35;
+    this.phase = Math.random() * 100;
+    this.t = Math.random() * 100;
+    this.pts = [];
+    for (var i = 0; i < N; i++) this.pts.push({ x: x - Math.cos(this.a) * i * this.seg, y: y - Math.sin(this.a) * i * this.seg });
+  }
+  Fish.prototype.update = function (dt) {
+    this.t += dt;
+    var h = this.pts[0];
+    this.a += Math.sin(this.t * 0.7 + this.phase) * 0.015 * dt * 60;
+    var m = this.len * 0.7;
+    if (h.x < m || h.x > W - m || h.y < m * 0.6 || h.y > H - m * 0.6) {
+      var target = Math.atan2(H / 2 - h.y, W / 2 - h.x);
+      var d = Math.atan2(Math.sin(target - this.a), Math.cos(target - this.a));
+      this.a += d * 0.04 * dt * 60;
+    }
+    h.x += Math.cos(this.a) * this.speed * dt * 60;
+    h.y += Math.sin(this.a) * this.speed * dt * 60;
+    for (var i = 1; i < N; i++) {
+      var p = this.pts[i], q = this.pts[i - 1];
+      var ang = Math.atan2(p.y - q.y, p.x - q.x);
+      p.x = q.x + Math.cos(ang) * this.seg;
+      p.y = q.y + Math.sin(ang) * this.seg;
+    }
+  };
+  Fish.prototype.draw = function (fill) {
+    var n = N, len = this.len, s = [], i;
+    for (i = 0; i < n; i++) {
+      var p = this.pts[i];
+      var nx = this.pts[Math.min(i + 1, n - 1)], pv = this.pts[Math.max(i - 1, 0)];
+      var tx = pv.x - nx.x, ty = pv.y - nx.y, tl = Math.hypot(tx, ty) || 1;
+      tx /= tl; ty /= tl;
+      var lx = -ty, ly = tx;
+      var sway = Math.sin(this.t * 4 - i * 0.55) * (i / n) * (i / n) * len * 0.09;
+      s.push({ x: p.x + lx * sway, y: p.y + ly * sway, lx: lx, ly: ly, tx: tx, ty: ty });
+    }
+    var left = [], right = [];
+    for (i = 0; i < n; i++) {
+      var w = len * 0.115 * Math.pow(Math.sin(Math.PI * (i + 1.3) / (n + 1.6)), 0.8);
+      left.push({ x: s[i].x + s[i].lx * w, y: s[i].y + s[i].ly * w });
+      right.push({ x: s[i].x - s[i].lx * w, y: s[i].y - s[i].ly * w });
+    }
+    ctx.fillStyle = fill;
+    ctx.beginPath();
+    ctx.moveTo(left[0].x, left[0].y);
+    for (i = 1; i < n; i++) ctx.lineTo(left[i].x, left[i].y);
+    for (i = n - 1; i >= 0; i--) ctx.lineTo(right[i].x, right[i].y);
+    ctx.closePath();
+    ctx.fill();
+    /* head */
+    ctx.beginPath();
+    ctx.arc(s[0].x, s[0].y, len * 0.115 * 0.72, 0, Math.PI * 2);
+    ctx.fill();
+    /* tail fin */
+    var e = s[n - 1], L = len * 0.2;
+    ctx.beginPath();
+    ctx.moveTo(e.x, e.y);
+    ctx.lineTo(e.x - e.tx * L + e.lx * L * 0.55, e.y - e.ty * L + e.ly * L * 0.55);
+    ctx.lineTo(e.x - e.tx * L * 0.55, e.y - e.ty * L * 0.55);
+    ctx.lineTo(e.x - e.tx * L - e.lx * L * 0.55, e.y - e.ty * L - e.ly * L * 0.55);
+    ctx.closePath();
+    ctx.fill();
+    /* pectoral fins */
+    var f = s[3], fw = len * 0.2, flap = Math.sin(this.t * 2.2) * 0.25;
+    [1, -1].forEach(function (side) {
+      ctx.beginPath();
+      ctx.moveTo(f.x + f.lx * side * len * 0.1, f.y + f.ly * side * len * 0.1);
+      ctx.lineTo(f.x + f.lx * side * fw * (1 + flap) - f.tx * fw * 0.8, f.y + f.ly * side * fw * (1 + flap) - f.ty * fw * 0.8);
+      ctx.lineTo(f.x + f.lx * side * len * 0.1 - f.tx * fw * 0.35, f.y + f.ly * side * len * 0.1 - f.ty * fw * 0.35);
+      ctx.closePath();
+      ctx.fill();
+    });
+  };
+
+  function resize() {
+    var r = canvas.getBoundingClientRect();
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = r.width; H = r.height;
+    canvas.width = Math.max(1, Math.round(W * dpr));
+    canvas.height = Math.max(1, Math.round(H * dpr));
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var base = Math.max(70, Math.min(170, W * 0.17));
+    var specs = [[1.0, '--fish1'], [0.8, '--fish2'], [0.65, '--fish3'], [0.9, '--fish1'], [0.55, '--fish2']];
+    fish = specs.map(function (sp, k) {
+      return new Fish(W * (0.15 + 0.17 * k), H * (0.2 + 0.15 * ((k * 2) % 5)), base * sp[0], sp[1]);
+    });
+  }
+
+  function colors() {
+    var cs = getComputedStyle(document.documentElement), o = {};
+    ['--fish1', '--fish2', '--fish3'].forEach(function (v) { o[v] = cs.getPropertyValue(v).trim(); });
+    return o;
+  }
+  function frame(dt) {
+    ctx.clearRect(0, 0, W, H);
+    var c = colors();
+    fish.forEach(function (f) { f.update(dt); f.draw(c[f.color]); });
+  }
+
+  resize();
+  var ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(function () { resize(); if (reduce) frame(0); }) : null;
+  if (ro) ro.observe(canvas); else window.addEventListener('resize', resize);
+
+  if (reduce) {
+    for (var k = 0; k < 40; k++) fish.forEach(function (f) { f.update(1 / 60); });
+    frame(0);
+    return;
+  }
+  var last = performance.now(), visible = true;
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (en) { visible = en[0].isIntersecting; }).observe(canvas);
+  }
+  function loop(now) {
+    var dt = Math.min((now - last) / 1000, 0.05);
+    last = now;
+    if (visible && !document.hidden) frame(dt);
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+})();
+</script>
